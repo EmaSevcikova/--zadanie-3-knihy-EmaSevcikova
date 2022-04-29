@@ -1,10 +1,9 @@
 package sk.stuba.fei.uim.oop.assignment3.author.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import sk.stuba.fei.uim.oop.assignment3.author.IAuthorService;
+import org.springframework.web.bind.annotation.*;
+import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
+import sk.stuba.fei.uim.oop.assignment3.author.service.IAuthorService;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorResponse;
 
 import java.util.List;
@@ -20,5 +19,10 @@ public class AuthorController {
     @GetMapping()
     public List<AuthorResponse> getAllAuthors(){
         return this.service.getAll().stream().map(AuthorResponse::new).collect(Collectors.toList());
+    }
+
+    @PostMapping()
+    public AuthorResponse addAuthor(@RequestBody AuthorRequest request){
+        return new AuthorResponse(this.service.createAuthor(request));
     }
 }

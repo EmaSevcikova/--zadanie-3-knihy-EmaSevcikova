@@ -1,6 +1,7 @@
 package sk.stuba.fei.uim.oop.assignment3.book.data;
 
 import lombok.Data;
+import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookRequest;
 
 import javax.persistence.*;
 
@@ -18,4 +19,14 @@ public class Book {
     private Long pages;
     private Long amount;
     private Long lendCount;
+
+    public Book(BookRequest request){
+        this.name = request.getName();
+        this.description = request.getDescription();
+        this.author = request.getAuthor();
+        this.pages = request.getPages();
+        this.amount = request.getAmount();
+        this.lendCount = request.getLendCount();
+
+    }
 }
