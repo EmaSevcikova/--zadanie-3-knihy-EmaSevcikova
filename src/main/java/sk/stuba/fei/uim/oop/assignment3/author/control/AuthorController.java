@@ -6,6 +6,7 @@ import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
 import sk.stuba.fei.uim.oop.assignment3.author.service.IAuthorService;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorResponse;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,4 +26,20 @@ public class AuthorController {
     public AuthorResponse addAuthor(@RequestBody AuthorRequest request){
         return new AuthorResponse(this.service.createAuthor(request));
     }
+
+    @GetMapping(value = "/{id}")
+    public AuthorResponse getAuthor(@PathVariable("id") Long authorId){
+        return new AuthorResponse(this.service.getById(authorId));
+    }
+
+    @PutMapping(value = "/{id}")
+    public AuthorResponse updateAuthor(@PathVariable("id") Long authorId, @RequestBody AuthorRequest request){
+        return new AuthorResponse(this.service.update(authorId,request));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteAuthor(@PathVariable("id") Long authorId){
+        this.service.delete(authorId);
+    }
 }
+

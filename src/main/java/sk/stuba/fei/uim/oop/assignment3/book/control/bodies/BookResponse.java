@@ -1,9 +1,11 @@
 package sk.stuba.fei.uim.oop.assignment3.book.control.bodies;
 
+import lombok.Getter;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 
+@Getter
 public class BookResponse {
-    private long bookId;
+    private long id;
     private String name;
     private String description;
     private long author;
@@ -12,7 +14,7 @@ public class BookResponse {
     private long lendCount;
 
     public BookResponse(Book book){
-        this.bookId = book.getId();
+        this.id = book.getId();
         this.name = book.getName();
         this.description = book.getDescription();
         this.author = book.getAuthor();

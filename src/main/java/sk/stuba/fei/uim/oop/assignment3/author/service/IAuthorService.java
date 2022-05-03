@@ -9,4 +9,12 @@ public interface IAuthorService {
     List<Author> getAll();
 
     Author createAuthor(AuthorRequest request);
+
+    Author getById(long id);
+
+    Author save(Author author);
+
+    Author update(Long authorId, AuthorRequest request);
+
+    void delete(Long id);
 }

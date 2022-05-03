@@ -1,15 +1,17 @@
 package sk.stuba.fei.uim.oop.assignment3.author.data;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
+import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Author {
@@ -20,11 +22,15 @@ public class Author {
 
     private String name;
     private String surname;
-    //books
+
+    @OneToMany
+    private List<Book> books;
+
 
     public Author(AuthorRequest request){
         this.name = request.getName();
         this.surname = request.getSurname();
+        this.books = new ArrayList<>();
     }
 
 
