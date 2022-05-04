@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.oop.assignment3.book.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.*;
 import sk.stuba.fei.uim.oop.assignment3.book.service.IBookService;
@@ -22,8 +24,8 @@ public class BookController {
     }
 
     @PostMapping()
-    public BookResponse addBook(@RequestBody BookRequest request){
-        return new BookResponse(this.service.createBook(request));
+    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest request){
+        return new ResponseEntity<>(new BookResponse(this.service.createBook(request)), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}")

@@ -20,11 +20,8 @@ public class BooksToLend {
     @ManyToOne
     private Book book;
 
-    @ManyToOne
-    private LendingList lendingList;
 
-    public BooksToLend(Book book, LendingList lendingList) {
+    public BooksToLend(Book book) {
         this.book = book;
-        this.lendingList = lendingList;
     }
 }

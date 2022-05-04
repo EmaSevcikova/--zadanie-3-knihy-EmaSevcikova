@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.oop.assignment3.author.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
 import sk.stuba.fei.uim.oop.assignment3.author.service.IAuthorService;
@@ -23,8 +25,8 @@ public class AuthorController {
     }
 
     @PostMapping()
-    public AuthorResponse addAuthor(@RequestBody AuthorRequest request){
-        return new AuthorResponse(this.service.createAuthor(request));
+    public ResponseEntity<AuthorResponse> addAuthor(@RequestBody AuthorRequest request){
+        return new ResponseEntity<>(new AuthorResponse(this.service.createAuthor(request)), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}")

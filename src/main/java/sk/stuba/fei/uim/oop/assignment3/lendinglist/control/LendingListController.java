@@ -1,9 +1,10 @@
 package sk.stuba.fei.uim.oop.assignment3.lendinglist.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookRequest;
-import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookResponse;
+import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookIdRequest;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.service.ILendingListService;
 
 import java.util.List;
@@ -21,7 +22,29 @@ public class LendingListController {
         return this.service.getAll().stream().map(LendingListResponse::new).collect(Collectors.toList());
     }
     @PostMapping()
-    public LendingListResponse addList(){
-        return new LendingListResponse(this.service.createList());
+    public ResponseEntity<LendingListResponse> addList(){
+        return new ResponseEntity<>(new LendingListResponse(this.service.createList()), HttpStatus.CREATED);
+
+    }
+    @GetMapping(value = "/{id}")
+    public LendingListResponse getList(@PathVariable("id") Long listId){
+        return new LendingListResponse(this.service.getById(listId));
+    }
+    @DeleteMapping(value = "/{id}")
+    public void deleteList(@PathVariable("id") Long listId){
+        this.service.delete(listId);
+    }
+
+    @PostMapping(value = "/{id}/add")
+    public LendingListResponse addBookToList(@PathVariable("id") Long listId, @RequestBody BookIdRequest request){
+        return new LendingListResponse(this.service.addBook(listId,request));
+    }
+    @DeleteMapping(value = "/{id}/remove")
+    public void removeBookFromList(@PathVariable("id") Long listId, @RequestBody BookIdRequest request){
+        this.service.removeBook(listId,request);
+    }
+    @GetMapping(value = "/{id}/lend")
+    public void lendList(@PathVariable("id") Long listId){
+        this.service.lendList(listId);
     }
 }

@@ -29,8 +29,6 @@ public class Book {
     @ManyToOne
     private Author bookAuthor;
 
-    @OneToMany
-    private List<BooksToLend> booksToLendList;
 
     public Book(BookRequest request){
         this.name = request.getName();
@@ -39,7 +37,6 @@ public class Book {
         this.pages = request.getPages();
         this.amount = request.getAmount();
         this.lendCount = request.getLendCount();
-        this.booksToLendList = new ArrayList<>();
 
     }
 }

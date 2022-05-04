@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface LendingListRepository extends JpaRepository<LendingList, Long> {
     List<LendingList> findAll();
+
+    LendingList findLendingListById(Long id);
 }

@@ -17,6 +17,6 @@ public class LendingListResponse {
     public LendingListResponse(LendingList list){
         this.id = list.getId();
         this.lended = list.isLended();
-        this.lendingList = list.getBooksToLendList().stream().map(booksToLend -> new BookResponse(booksToLend.getBook())).collect(Collectors.toList());
+        this.lendingList = list.getBooks().stream().map(BookResponse::new).collect(Collectors.toList());
     }
 }
