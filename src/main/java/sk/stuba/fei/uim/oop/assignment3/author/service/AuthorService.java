@@ -1,10 +1,14 @@
 package sk.stuba.fei.uim.oop.assignment3.author.service;
 
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
 import sk.stuba.fei.uim.oop.assignment3.author.data.Author;
 import sk.stuba.fei.uim.oop.assignment3.author.data.AuthorRepository;
+import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
+import sk.stuba.fei.uim.oop.assignment3.book.service.IBookService;
+import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 import java.util.List;
 
@@ -13,6 +17,9 @@ public class AuthorService implements IAuthorService {
 
     @Autowired
     private AuthorRepository repository;
+
+    @Autowired
+    private IBookService bookService;
 
     @Override
     public List<Author> getAll() {
@@ -25,11 +32,11 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author getById(long id) {
+    public Author getById(long id) throws NotFoundException{
         Author author = this.repository.findAuthorById(id);
-//            if (book == null) {
-//                throw new NotFoundException();
-//            }
+            if (author == null) {
+                throw new NotFoundException();
+            }
         return author;
     }
 
@@ -39,7 +46,7 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public Author update(Long id, AuthorRequest request) {
+    public Author update(Long id, AuthorRequest request) throws NotFoundException{
         Author author = this.getById(id);
 
         if (request.getName() != null){
@@ -54,7 +61,11 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
-    public void delete(Long id) {
-        this.repository.delete(this.getById(id));
+    public void delete(Long id) throws NotFoundException {
+        Author author = this.getById(id);
+        for (Book book: author.getBooks()) {
+            this.bookService.delete(book.getId());
+        }
+        this.repository.delete(author);
     }
 }

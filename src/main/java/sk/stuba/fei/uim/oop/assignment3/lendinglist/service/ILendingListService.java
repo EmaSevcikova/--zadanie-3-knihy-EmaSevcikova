@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.oop.assignment3.lendinglist.service;
 
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookIdRequest;
+import sk.stuba.fei.uim.oop.assignment3.exception.BadRequestException;
+import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.control.LendingListResponse;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.data.LendingList;
 
@@ -12,13 +14,13 @@ public interface ILendingListService {
 
     LendingList createList();
 
-    LendingList getById(Long id);
+    LendingList getById(Long id) throws NotFoundException;
 
-    void delete(Long id);
+    void delete(Long id) throws NotFoundException;
 
-    LendingList addBook(Long id, BookIdRequest request);
+    LendingList addBook(Long id, BookIdRequest request) throws NotFoundException, BadRequestException;
 
-    void removeBook(Long id, BookIdRequest request);
+    void removeBook(Long id, BookIdRequest request) throws NotFoundException;
 
-    void lendList(Long id);
+    void lendList(Long id) throws NotFoundException, BadRequestException;
 }

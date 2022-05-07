@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorRequest;
 import sk.stuba.fei.uim.oop.assignment3.author.service.IAuthorService;
 import sk.stuba.fei.uim.oop.assignment3.author.control.bodies.AuthorResponse;
+import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 
 import java.util.List;
@@ -30,17 +31,17 @@ public class AuthorController {
     }
 
     @GetMapping(value = "/{id}")
-    public AuthorResponse getAuthor(@PathVariable("id") Long authorId){
+    public AuthorResponse getAuthor(@PathVariable("id") Long authorId) throws NotFoundException {
         return new AuthorResponse(this.service.getById(authorId));
     }
 
     @PutMapping(value = "/{id}")
-    public AuthorResponse updateAuthor(@PathVariable("id") Long authorId, @RequestBody AuthorRequest request){
+    public AuthorResponse updateAuthor(@PathVariable("id") Long authorId, @RequestBody AuthorRequest request) throws NotFoundException{
         return new AuthorResponse(this.service.update(authorId,request));
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteAuthor(@PathVariable("id") Long authorId){
+    public void deleteAuthor(@PathVariable("id") Long authorId) throws NotFoundException {
         this.service.delete(authorId);
     }
 }

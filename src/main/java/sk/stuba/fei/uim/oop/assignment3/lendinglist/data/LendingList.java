@@ -17,7 +17,7 @@ public class LendingList {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany()
     private List<Book> books;
 
     private boolean lended;

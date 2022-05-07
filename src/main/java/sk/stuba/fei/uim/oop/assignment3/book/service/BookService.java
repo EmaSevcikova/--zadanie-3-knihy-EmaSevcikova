@@ -10,9 +10,9 @@ import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookUpdateRequest;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.IncreaseAmount;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 import sk.stuba.fei.uim.oop.assignment3.book.data.BookRepository;
+import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService implements IBookService {
@@ -29,7 +29,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Book createBook(BookRequest request) {
+    public Book createBook(BookRequest request) throws NotFoundException {
         Book book = this.repository.save(new Book(request));
         Author author = this.authorService.getById(request.getAuthor());
 
@@ -42,16 +42,16 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Book getById(long id) {
+    public Book getById(Long id) throws NotFoundException{
             Book book = this.repository.findBookById(id);
-//            if (book == null) {
-//                throw new NotFoundException();
-//            }
+            if (book == null) {
+                throw new NotFoundException();
+            }
             return book;
     }
 
     @Override
-    public Book update(long id, BookUpdateRequest request) {
+    public Book update(Long id, BookUpdateRequest request) throws NotFoundException{
         Book book = this.getById(id);
 
         if (request.getName() != null){
@@ -62,11 +62,17 @@ public class BookService implements IBookService {
             book.setDescription(request.getDescription());
         }
 
-        if (request.getAuthor() != null){
+        if (request.getAuthor() != null && request.getAuthor() != 0){
+            Author author = this.authorService.getById(book.getAuthor());
+            if (!author.getBooks().isEmpty()) {
+                author.getBooks().remove(book);
+            }
+            Author newAuthor = this.authorService.getById(request.getAuthor());
+            newAuthor.getBooks().add(book);
             book.setAuthor(request.getAuthor());
         }
 
-        if (request.getPages() != null){
+        if (request.getPages() != 0){
             book.setPages(request.getPages());
         }
 
@@ -74,12 +80,15 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void delete(long id) {
-        this.repository.delete(this.getById(id));
+    public void delete(Long id) throws NotFoundException {
+        Book book = this.getById(id);
+        Author author = this.authorService.getById(book.getAuthor());
+        author.getBooks().remove(book);
+        this.repository.delete(book);
     }
 
     @Override
-    public Book increaseAmount(Long id, IncreaseAmount request) {
+    public Book increaseAmount(Long id, IncreaseAmount request) throws NotFoundException{
         Book book = this.getById(id);
         book.setAmount(book.getAmount()+ request.getAmount());
         return this.repository.save(book);

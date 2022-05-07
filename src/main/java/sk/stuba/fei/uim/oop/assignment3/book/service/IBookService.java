@@ -4,19 +4,20 @@ import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookRequest;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookUpdateRequest;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.IncreaseAmount;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
+import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 import java.util.List;
 
 public interface IBookService {
     List<Book> getAll();
 
-    Book createBook(BookRequest request);
+    Book createBook(BookRequest request) throws NotFoundException;
 
-    Book getById(long id);
+    Book getById(Long id) throws NotFoundException;
 
-    Book update(long id, BookUpdateRequest request);
+    Book update(Long id, BookUpdateRequest request) throws NotFoundException;
 
-    void delete(long id);
+    void delete(Long id) throws NotFoundException;
 
-    Book increaseAmount(Long id, IncreaseAmount request);
+    Book increaseAmount(Long id, IncreaseAmount request) throws NotFoundException;
 }

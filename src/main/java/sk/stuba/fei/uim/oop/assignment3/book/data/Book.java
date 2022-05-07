@@ -4,11 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import sk.stuba.fei.uim.oop.assignment3.author.data.Author;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookRequest;
-import sk.stuba.fei.uim.oop.assignment3.lendinglist.data.BooksToLend;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
