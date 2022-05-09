@@ -12,6 +12,6 @@ public class ControllerExceptionHandler {
     public void handleNotFoundException() {}
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(IllegalOperationException.class)
     public void handleBadRequestException() {}
 }

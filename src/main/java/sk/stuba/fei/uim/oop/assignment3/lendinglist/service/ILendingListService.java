@@ -1,9 +1,8 @@
 package sk.stuba.fei.uim.oop.assignment3.lendinglist.service;
 
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookIdRequest;
-import sk.stuba.fei.uim.oop.assignment3.exception.BadRequestException;
+import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
-import sk.stuba.fei.uim.oop.assignment3.lendinglist.control.LendingListResponse;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.data.LendingList;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public interface ILendingListService {
 
     void delete(Long id) throws NotFoundException;
 
-    LendingList addBook(Long id, BookIdRequest request) throws NotFoundException, BadRequestException;
+    LendingList addBook(Long id, BookIdRequest request) throws NotFoundException, IllegalOperationException;
 
     void removeBook(Long id, BookIdRequest request) throws NotFoundException;
 
-    void lendList(Long id) throws NotFoundException, BadRequestException;
+    void lendList(Long id) throws NotFoundException, IllegalOperationException;
 }

@@ -1,20 +1,17 @@
 package sk.stuba.fei.uim.oop.assignment3.lendinglist.service;
 
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.book.control.bodies.BookIdRequest;
 import sk.stuba.fei.uim.oop.assignment3.book.data.Book;
 import sk.stuba.fei.uim.oop.assignment3.book.service.IBookService;
-import sk.stuba.fei.uim.oop.assignment3.exception.BadRequestException;
+import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
-import sk.stuba.fei.uim.oop.assignment3.lendinglist.control.LendingListResponse;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.data.LendingList;
 import sk.stuba.fei.uim.oop.assignment3.lendinglist.data.LendingListRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class LendingListService implements ILendingListService{
@@ -59,7 +56,7 @@ public class LendingListService implements ILendingListService{
     }
 
     @Override
-    public LendingList addBook(Long id, BookIdRequest request) throws NotFoundException, BadRequestException {
+    public LendingList addBook(Long id, BookIdRequest request) throws NotFoundException, IllegalOperationException {
 
         LendingList list = this.getById(id);
         Book book = bookService.getById(request.getId());
@@ -67,12 +64,12 @@ public class LendingListService implements ILendingListService{
         boolean canBeAdded = book.getLendCount() < book.getAmount();
 
         if (list.isLended() || !canBeAdded){
-            throw new BadRequestException();
+            throw new IllegalOperationException();
         }
 
         for (Book b : list.getBooks()) {
                 if (Objects.equals(b.getId(), book.getId())){
-                    throw new BadRequestException();
+                    throw new IllegalOperationException();
                 }
             }
 
@@ -92,7 +89,7 @@ public class LendingListService implements ILendingListService{
     }
 
     @Override
-    public void lendList(Long id) throws NotFoundException, BadRequestException {
+    public void lendList(Long id) throws NotFoundException, IllegalOperationException {
         LendingList list = this.getById(id);
         boolean booksCanBeLanded = true;
 
@@ -109,7 +106,7 @@ public class LendingListService implements ILendingListService{
             list.setLended(true);
         }
         else {
-            throw new BadRequestException();
+            throw new IllegalOperationException();
         }
 
         this.repository.save(list);
